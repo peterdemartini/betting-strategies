@@ -1,0 +1,24 @@
+{
+  "name": "peter-is-better-than-aaron",
+  "version": "1.0.0",
+  "description": "Peter's betting strategy is better than Aarons",
+  "main": "index.js",
+  "scripts": {
+    "start": "coffee run.coffee",
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peterdemartini/peter-is-better-than-aaron.git"
+  },
+  "author": "Peter DeMartini",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/peterdemartini/peter-is-better-than-aaron/issues"
+  },
+  "homepage": "https://github.com/peterdemartini/peter-is-better-than-aaron",
+  "dependencies": {
+    "coffee-script": "^1.8.0",
+    "lodash": "^2.4.1"
+  }
+}
