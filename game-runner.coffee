@@ -17,13 +17,14 @@ class GameRunner
     @player = new Player @gameName
 
   runLimitGame: (index) =>
-    @player.play()
+    result = @player.play()
     lastWinnings = @player.lastWinnings
     if lastWinnings > 0
       @numberWon++
     else if lastWinnings < 0
       @numberLost++
     return unless @isEndOfLimitGame(index)
+    return unless result
     @totalWinnings = @player.winningsPot
     @limitGamesPlayed++
     console.log "Limit Game (#{@limitGamesPlayed}): #{@formatNumber(@totalWinnings)}"

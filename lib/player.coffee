@@ -3,7 +3,7 @@ class Peter
     @predictability = 1
     Game = require './games/' + gameName
     @game = new Game
-    @minumum = 20
+    @minumum = 25
     @currentBet = @minumum
     @lastWinnings = 0
     @winningsPot = 0
@@ -12,7 +12,7 @@ class Peter
       'random': 'getRandomMultiplier'
       'double': 'doubleDown'
     @multiplier = @MULTIPLIERS.sane
-    @happyWithWinnings = @minumum * 10
+    @winningsMultiplier = 4
 
   getRandomMultiplier: =>
     Math.floor Math.random() * @predictability
@@ -26,18 +26,20 @@ class Peter
     @multiplier = @MULTIPLIERS[key]
 
   play: =>
-    # if @winningsPot > @happyWithWinnings
-    #   @lastWinnings = 0
-    #   return null
-    # @predictability++
+    prevWinnings = @lastWinnings
+    if @winningsPot == @minumum * 4 * @winningsMultiplier
+      return false
+
+    prevWinnings = @lastWinnings
     @lastWinnings = @game.bet @currentBet
     @winningsPot += @lastWinnings
 
     if @lastWinnings > 0
       @currentBet = @currentBet * @[@multiplier]()
-      # @currentBet = @currentBet * @saneMultiplier()
+    else if @lastWinnings == 0
+      @currentBet = prevWinnings
     else
       @currentBet = @minumum
-    return null
+    return true
 
 module.exports = Peter
