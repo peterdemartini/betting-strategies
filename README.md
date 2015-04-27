@@ -1,3 +1,5 @@
-# peter-is-better-than-aaron
+# My Betting Strategies
 
-Peter's betting strategy is better than Aarons
+1. `git clone git@github.com:peterdemartini/betting-strategies.git`
+2. `cd betting-strategies`
+3. `npm start` or `npm start -g [roulette|blackjack] -n 500`
