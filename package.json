@@ -19,6 +19,7 @@
   "homepage": "https://github.com/peterdemartini/peter-is-better-than-aaron",
   "dependencies": {
     "coffee-script": "^1.8.0",
+    "colors": "^1.0.3",
     "commander": "^2.8.1",
     "lodash": "^3.7.0"
   }
