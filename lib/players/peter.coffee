@@ -13,8 +13,7 @@ class Peter extends Player
     @strategies = _.keys STRATEGIES
     super(gameName)
 
-  getRandomMultiplier: =>
-    _.sample [1..3]
+  getRandomMultiplier: => _.sample [1..3]
 
   doubleDown: => 2
 
@@ -25,8 +24,8 @@ class Peter extends Player
 
   play: =>
     prevWinnings = @lastWinnings
-    if @winningsPot == @minumum * 4 * @winningsMultiplier
-      return !CONTINUE_GAME
+    # if @winningsPot == @minumum * 4
+    #   return !CONTINUE_GAME
 
     @bet()
 

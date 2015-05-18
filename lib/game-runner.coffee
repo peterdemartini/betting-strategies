@@ -17,14 +17,12 @@ class GameRunner
 
   runGame: (index) =>
     @gamesPlayed++
-    result = @player.play()
+    continueGame = @player.play()
     lastWinnings = @player.lastWinnings
-    if lastWinnings > 0
-      @numberWon++
-    else if lastWinnings < 0
-      @numberLost++
+    @numberWon++ if lastWinnings > 0
+    @numberLost++ if lastWinnings < 0
 
-    if @numberOfGames == @gamesPlayed
+    if @numberOfGames == @gamesPlayed || !continueGame
       @totalWinnings = @player.winningsPot
 
   runPlayer: (Player, playerName) =>
