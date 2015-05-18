@@ -1,7 +1,6 @@
 _ = require 'lodash'
+formatNumber = require './format-number'
 EasyTable = require 'easy-table'
-colors = require 'colors/safe'
-debug = require('debug')('betting-strategy:game-runner')
 Peter = require './players/peter'
 Aaron = require './players/aaron'
 PLAYERS = {
@@ -12,12 +11,6 @@ PLAYERS = {
 class GameRunner
   constructor: (@numberOfGames=20, @gameName) ->
     @results = []
-
-  formatNumber: (number) ->
-    n = number.toString()
-    formatRegex = /(\d)(?=(\d\d\d)+(?!\d))/g
-    return '$' + n.replace(formatRegex, "$1,") if number > 0
-    '-$' + n.replace('-', '').replace(formatRegex, "$1,")
 
   newPerson: (Player) =>
     @player = new Player(@gameName)
@@ -30,7 +23,7 @@ class GameRunner
       @numberWon++
     else if lastWinnings < 0
       @numberLost++
-      
+
     if @numberOfGames == @gamesPlayed
       @totalWinnings = @player.winningsPot
 
@@ -44,7 +37,7 @@ class GameRunner
       winningRatio = Math.round(@numberWon / @numberOfGames  * 100)
       result["Player"] = playerName
       result["Strategy"] = strategy
-      result["Total Winnings"] = @formatNumber(@totalWinnings)
+      result["Total Winnings"] = formatNumber(@totalWinnings)
       result["Games Played"] = @gamesPlayed
       result["Ratio"] = "%#{winningRatio}"
       @results.push result
