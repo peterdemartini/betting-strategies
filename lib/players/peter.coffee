@@ -7,7 +7,7 @@ STRATEGIES =
   'double': 'doubleDown'
 
 class Aaron extends Player
-  constructor: (gameName='roulette') ->
+  constructor: (gameName) ->
     @predictability = 1
     @strategies = _.keys STRATEGIES
     super(gameName)

@@ -1,5 +1,5 @@
 class Player
-  constructor: (gameName) ->
+  constructor: (gameName='roulette') ->
     Game = require '../games/' + gameName
     @game = new Game
     @minumum = 25
@@ -8,8 +8,8 @@ class Player
     @winningsPot = 25
 
   bet: =>
-    console.error('bet a negative amount') if @currentBet < 0
-    console.error("can't bet 0") if @currentBet == 0
+    throw new Error('bet a negative amount') if @currentBet < 0
+    throw new Error("can't bet 0") if @currentBet == 0
     @winningsPot -= @currentBet
     @lastWinnings = @game.bet @currentBet
     @winningsPot += @lastWinnings

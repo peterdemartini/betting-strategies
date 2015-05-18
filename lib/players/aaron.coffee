@@ -5,9 +5,9 @@ STRATEGIES =
   'wrong': 'wrongStrategy'
 
 class Aaron extends Player
-  constructor: (gameName='roulette', dependencies={}) ->
+  constructor: (gameName) ->
     @strategies = _.keys STRATEGIES
-    super(gameName, dependencies)
+    super(gameName)
 
   wrongStrategy: => 2
 
