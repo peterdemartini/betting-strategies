@@ -10,7 +10,7 @@ program
   .parse process.argv
 
 gameName = program.game || 'roulette'
-defaultNumberOfGames = '20,000'.replace(/,/g, '')
+defaultNumberOfGames = '2,000,000'.replace(/,/g, '')
 numberOfGames = parseInt program.number || defaultNumberOfGames
 
 debug 'Starting Games...'

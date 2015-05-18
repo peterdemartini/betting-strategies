@@ -1,45 +1,41 @@
+_ = require 'lodash'
 Player = require './player'
 
-class Peter extends Player
-  constructor: (gameName='roulette', dependencies={}) ->
+STRATEGIES =
+  'sane': 'saneMultiplier'
+  'random': 'getRandomMultiplier'
+  'double': 'doubleDown'
+
+class Aaron extends Player
+  constructor: (gameName='roulette') ->
     @predictability = 1
-    @minumum = 25
-    @MULTIPLIERS =
-      'sane': 'saneMultiplier'
-      'random': 'getRandomMultiplier'
-      'double': 'doubleDown'
-    @multiplier = @MULTIPLIERS.sane
-    @winningsMultiplier = 4
-    @strategies = ['random', 'sane', 'double']
-    super()
+    @strategies = _.keys STRATEGIES
+    super(gameName)
 
   getRandomMultiplier: =>
-    Math.floor Math.random() * @predictability
-
-  saneMultiplier: =>
-    @predictability
+    _.sample [1..3]
 
   doubleDown: => 2
 
+  saneMultiplier: => 1
+
   setStrategy: (key='')=>
-    @multiplier = @MULTIPLIERS[key]
+    @strategy = STRATEGIES[key]
 
   play: =>
     prevWinnings = @lastWinnings
     if @winningsPot == @minumum * 4 * @winningsMultiplier
       return false
 
-    prevWinnings = @lastWinnings
-    @lastWinnings = @game.bet @currentBet
-    @winningsPot += @lastWinnings
+    @bet()
 
     if @lastWinnings > 0
-      @currentBet = @currentBet * @[@multiplier]()
+      @currentBet = @currentBet * @[@strategy]()
     else if @lastWinnings == 0
       @currentBet = prevWinnings
     else
       @currentBet = @minumum
 
     return true
-    
-module.exports = Peter
+
+module.exports = Aaron

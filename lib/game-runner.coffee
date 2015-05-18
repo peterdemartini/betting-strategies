@@ -10,9 +10,7 @@ PLAYERS = {
 }
 
 class GameRunner
-  constructor: (@numberOfGames=20, @gameName='roulette') ->
-    @limitSize = @numberOfGames / 5 if @numberOfGames > 20
-    @limitSize = @numberOfGames / 2 if @numberOfGames <= 20
+  constructor: (@numberOfGames=20, @gameName) ->
     @results = []
 
   formatNumber: (number) ->
@@ -24,19 +22,17 @@ class GameRunner
   newPerson: (Player) =>
     @player = new Player(@gameName)
 
-  runLimitGame: (index) =>
+  runGame: (index) =>
+    @gamesPlayed++
     result = @player.play()
     lastWinnings = @player.lastWinnings
     if lastWinnings > 0
       @numberWon++
     else if lastWinnings < 0
       @numberLost++
-    return unless @isEndOfLimitGame(index)
-    return unless result
-    @totalWinnings = @player.winningsPot
-    @limitGamesPlayed++
-    debug "Limit Games Played: #{@limitGamesPlayed}"
-    debug "Total Winnings: #{@formatNumber(@totalWinnings)}"
+      
+    if @numberOfGames == @gamesPlayed
+      @totalWinnings = @player.winningsPot
 
   runPlayer: (Player, playerName) =>
     @newPerson(Player)
@@ -44,13 +40,13 @@ class GameRunner
       @reset()
       result = {}
       @player.setStrategy(strategy)
-      _.times @numberOfGames, @runLimitGame
+      _.times @numberOfGames, @runGame
       winningRatio = Math.round(@numberWon / @numberOfGames  * 100)
       result["Player"] = playerName
       result["Strategy"] = strategy
       result["Total Winnings"] = @formatNumber(@totalWinnings)
-      result["Limit Games Played"] = @limitGamesPlayed
-      result["Ratio"] = winningRatio
+      result["Games Played"] = @gamesPlayed
+      result["Ratio"] = "%#{winningRatio}"
       @results.push result
       @newPerson(Player)
 
@@ -61,10 +57,7 @@ class GameRunner
     @numberWon = 0
     @numberLost = 0
     @totalWinnings = 0
-    @limitGamesPlayed = 0
-
-  isEndOfLimitGame: (n) =>
-    n % @limitSize == @limitSize - 1
+    @gamesPlayed = 0
 
   output: =>
     console.log EasyTable.printArray(@results)

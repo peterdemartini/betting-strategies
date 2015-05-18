@@ -6,7 +6,7 @@ class Roulette
     @pockets = @createPockets()
 
   bet: (amount=0) =>
-    return amount if _.sample(@pockets) == 'black'
+    return amount * 2 if _.sample(@pockets) == 'black'
     return -amount
 
   createPockets: =>
