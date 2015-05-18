@@ -1,6 +1,7 @@
 program = require 'commander'
 packageJSON = require './package.json'
-GameRunner = require './game-runner'
+GameRunner = require './lib/game-runner'
+debug = require('debug')('betting-strategy:run')
 
 program
   .version packageJSON.version
@@ -9,11 +10,11 @@ program
   .parse process.argv
 
 gameName = program.game || 'roulette'
-defaultNumberOfGames = '20'.replace(/,/g, '')
+defaultNumberOfGames = '20,000'.replace(/,/g, '')
 numberOfGames = parseInt program.number || defaultNumberOfGames
 
-console.log 'Starting Games...'
+debug 'Starting Games...'
 
-multipliers = ['random', 'sane', 'double']
-gameRunner = new GameRunner(multipliers, numberOfGames, gameName)
+gameRunner = new GameRunner(numberOfGames, gameName)
 gameRunner.run()
+gameRunner.output();

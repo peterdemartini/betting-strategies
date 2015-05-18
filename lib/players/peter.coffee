@@ -1,18 +1,17 @@
-class Peter
+Player = require './player'
+
+class Peter extends Player
   constructor: (gameName='roulette', dependencies={}) ->
     @predictability = 1
-    Game = require './games/' + gameName
-    @game = new Game
     @minumum = 25
-    @currentBet = @minumum
-    @lastWinnings = 0
-    @winningsPot = 0
     @MULTIPLIERS =
       'sane': 'saneMultiplier'
       'random': 'getRandomMultiplier'
       'double': 'doubleDown'
     @multiplier = @MULTIPLIERS.sane
     @winningsMultiplier = 4
+    @strategies = ['random', 'sane', 'double']
+    super()
 
   getRandomMultiplier: =>
     Math.floor Math.random() * @predictability
@@ -22,7 +21,7 @@ class Peter
 
   doubleDown: => 2
 
-  setMultiplier: (key='')=>
+  setStrategy: (key='')=>
     @multiplier = @MULTIPLIERS[key]
 
   play: =>
@@ -40,6 +39,7 @@ class Peter
       @currentBet = prevWinnings
     else
       @currentBet = @minumum
-    return true
 
+    return true
+    
 module.exports = Peter
