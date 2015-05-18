@@ -1,12 +1,13 @@
 _ = require 'lodash'
 Player = require './player'
+CONTINUE_GAME = true
 
 STRATEGIES =
-  'sane': 'saneMultiplier'
+  'same': 'keepTheSame'
   'random': 'getRandomMultiplier'
   'double': 'doubleDown'
 
-class Aaron extends Player
+class Peter extends Player
   constructor: (gameName) ->
     @predictability = 1
     @strategies = _.keys STRATEGIES
@@ -17,15 +18,15 @@ class Aaron extends Player
 
   doubleDown: => 2
 
-  saneMultiplier: => 1
+  keepTheSame: => 1
 
-  setStrategy: (key='')=>
+  setStrategy: (key)=>
     @strategy = STRATEGIES[key]
 
   play: =>
     prevWinnings = @lastWinnings
     if @winningsPot == @minumum * 4 * @winningsMultiplier
-      return false
+      return !CONTINUE_GAME
 
     @bet()
 
@@ -36,6 +37,6 @@ class Aaron extends Player
     else
       @currentBet = @minumum
 
-    return true
+    return CONTINUE_GAME
 
-module.exports = Aaron
+module.exports = Peter

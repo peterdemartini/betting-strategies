@@ -1,6 +1,7 @@
 _ = require 'lodash'
 Player = require './player'
 
+CONTINUE_GAME = true
 STRATEGIES =
   'wrong': 'wrongStrategy'
 
@@ -11,7 +12,7 @@ class Aaron extends Player
 
   wrongStrategy: => 2
 
-  setStrategy: (key='')=>
+  setStrategy: (key) =>
     @strategy = STRATEGIES[key]
 
   play: =>
@@ -21,9 +22,9 @@ class Aaron extends Player
 
     if @lastWinnings <= 0
       @currentBet = @currentBet * @[@strategy]()
-      return true
+      return CONTINUE_GAME
 
     @currentBet = @minumum
-    return true
+    return CONTINUE_GAME
 
 module.exports = Aaron
