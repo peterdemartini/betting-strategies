@@ -34,11 +34,11 @@ class GameRunner
       result = {}
       @player.setStrategy(strategy)
       _.times @numberOfGames, @runGame
-      winningRatio = Math.round(@numberWon / @numberOfGames  * 100)
       result["Player"] = playerName
       result["Strategy"] = strategy
       result["Total Winnings"] = formatNumber(@totalWinnings)
       result["Games Played"] = @gamesPlayed
+      winningRatio = Math.round(@numberWon / @numberOfGames  * 100)
       result["Ratio"] = "%#{winningRatio}"
       @results.push result
       @newPerson(Player)
@@ -54,6 +54,5 @@ class GameRunner
 
   output: =>
     console.log EasyTable.printArray(@results)
-
 
 module.exports = GameRunner
