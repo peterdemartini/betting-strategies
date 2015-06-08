@@ -24,18 +24,12 @@ class Peter extends Player
 
   play: =>
     prevWinnings = @lastWinnings
-    # if @winningsPot == @minumum * 4
-    #   return !CONTINUE_GAME
-
     @bet()
-
     if @lastWinnings > 0
-      @currentBet = @currentBet * @[@strategy]()
+      @currentBet *= @[@strategy]()
     else if @lastWinnings == 0
       @currentBet = prevWinnings
     else
       @currentBet = @minumum
-
-    return CONTINUE_GAME
 
 module.exports = Peter

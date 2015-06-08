@@ -17,12 +17,13 @@ class GameRunner
 
   runGame: (index) =>
     @gamesPlayed++
-    continueGame = @player.play()
+    @player.play()
     lastWinnings = @player.lastWinnings
     @numberWon++ if lastWinnings > 0
     @numberLost++ if lastWinnings < 0
+    @betAmounts.push(@player.currentBet)
 
-    if @numberOfGames == @gamesPlayed || !continueGame
+    if @numberOfGames == @gamesPlayed
       @totalWinnings = @player.winningsPot
 
   runPlayer: (Player, playerName) =>
@@ -34,10 +35,13 @@ class GameRunner
       _.times @numberOfGames, @runGame
       result["Player"] = playerName
       result["Strategy"] = strategy
-      result["Total Winnings"] = formatNumber(@totalWinnings)
-      result["Games Played"] = @gamesPlayed
+      result["Minumum"] = @player.minumum
+      result["Total Won"] = '$' + formatNumber(@totalWinnings)
+      result["# Played"] = @gamesPlayed
+      result["Won / Lost"] = "#{@numberWon}/#{@numberLost}"
       winningRatio = Math.round(@numberWon / @numberOfGames  * 100)
       result["Ratio"] = "%#{winningRatio}"
+      result["Highest Bet"] = formatNumber _.max(@betAmounts)
       @results.push result
       @newPerson(Player)
 
@@ -45,6 +49,7 @@ class GameRunner
     _.each PLAYERS, @runPlayer
 
   reset: =>
+    @betAmounts = []
     @numberWon = 0
     @numberLost = 0
     @totalWinnings = 0
